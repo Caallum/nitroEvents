@@ -1,5 +1,5 @@
 const EventEmitter = require('events');
-const { Client } = require('discord.js');
+const { readdirSync } = require('fs');
 
 module.exports = class NitroEvents extends EventEmitter {
   #client;
@@ -11,11 +11,11 @@ module.exports = class NitroEvents extends EventEmitter {
     if(!client.user) throw new Error(`Discord.Client is invalid.`);
   }
   
-  async emit(eventName: string, options) {
-    this.emit(eventName, options);
-  }
-  
-  async on(eventName: string, options) {
-    this.on(eventName, options);
+  async _EventHandler() {
+    const EventFiles = await readdirSync('./handlers').filter(file => file.endsWith('.js'));
+    for(const file of EventFiles) {
+      const event = require(`./handlers/${file}`);
+      this.#client.on(event.name, event.run.bind(null, this, client));
+    }
   }
 }
