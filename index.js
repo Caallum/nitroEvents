@@ -2,9 +2,11 @@ const EventEmitter = require('events');
 const { Client } = require('discord.js');
 
 module.exports = class NitroEvents extends EventEmitter {
-  constructor(private client) {
+  #client;
+  
+  constructor(client) {
     super();
-    this.client = client;
+    this.#client = client;
     
     if(!client.user) throw new Error(`Discord.Client is invalid.`);
   }
