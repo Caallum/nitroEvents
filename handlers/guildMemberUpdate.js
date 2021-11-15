@@ -8,5 +8,9 @@ module.exports = {
       const amount = newmember.guild.premiumSubscriptionCount - oldmember.guild.premiumSubscriptionCount;
       index.emit(`nitroBoostAdd`, (newmember, amount);;
     }
+
+    if(oldmember.premium && !newmember.premium) {
+      index.emit(`nitroBoostRemove`, (newmember) 
+    }
   }
 }
